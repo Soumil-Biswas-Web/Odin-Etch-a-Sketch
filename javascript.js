@@ -1,7 +1,10 @@
 function createBox(){
     const box = document.createElement('div');
     box.setAttribute('class', 'box');
-
+    //box.addEventListener('hover', () => changeColor(box));
+    box.addEventListener("mouseenter", function(e) {
+        e.target.style.background = "black";
+    })
     return box;
 }
 
@@ -28,6 +31,12 @@ function createGraph(n){
     body.appendChild(sketchpad);
 }
 
+function clearGraph(){
+    const body = document.querySelector('body');
+    const sketchpad = document.querySelector('.sketchpad');
+    body.removeChild(sketchpad);
+}
+
 //Initial Prompt
 function init() {
     const graphSize = prompt("Enter graph size N to make a NxN grid. N must be less than 100.");
@@ -35,10 +44,18 @@ function init() {
         alert("Grpah size too big! N must be less than 100.");
         init();
     }
+    else if(graphSize < 0){
+        alert("Graph size cannot be a negative number!");
+        init();
+    }
+    else if(document.querySelector('.sketchpad') == null){
+        createGraph(graphSize);
+    }
     else{
+        clearGraph();
         createGraph(graphSize);
     }
 }
 
-// Driver Code
-init();
+const button = document.querySelector('button');
+button.addEventListener('click', () => init());
