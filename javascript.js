@@ -1,7 +1,7 @@
 function createBox(){
     const box = document.createElement('div');
     box.setAttribute('class', 'box');
-    
+
     return box;
 }
 
@@ -29,7 +29,7 @@ function createGraph(n){
 }
 
 //Initial Prompt
-function init{
+function init() {
     const graphSize = prompt("Enter graph size N to make a NxN grid. N must be less than 100.");
     if (graphSize > 100){
         alert("Grpah size too big! N must be less than 100.");
