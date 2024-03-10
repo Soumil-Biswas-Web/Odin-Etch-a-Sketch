@@ -1,0 +1,17 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sketchpad{
+    width: 960px;
+    height: 960px;
+    display: flex;
+    flex-direction: column;
+}
+
+.box{
+    border: 2px solid black;
+}
