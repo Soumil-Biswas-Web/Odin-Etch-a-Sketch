@@ -1,3 +1,4 @@
+// Create Each box in the Row
 function createBox(){
     const box = document.createElement('div');
     box.setAttribute('class', 'box');
@@ -8,6 +9,7 @@ function createBox(){
     return box;
 }
 
+// Create each row for the graph
 function createRow(n){
     const row = document.createElement('div');
     row.setAttribute('class', 'row');
@@ -18,6 +20,7 @@ function createRow(n){
     return row;
 }
 
+// Create new sketchpad div
 function createGraph(n){
     const body = document.querySelector('body');
     const sketchpad = document.createElement('div');
@@ -31,6 +34,7 @@ function createGraph(n){
     body.appendChild(sketchpad);
 }
 
+// Clear the sketchpad div
 function clearGraph(){
     const body = document.querySelector('body');
     const sketchpad = document.querySelector('.sketchpad');
@@ -57,5 +61,6 @@ function init() {
     }
 }
 
+// Bind `New Grid` button to init event
 const button = document.querySelector('button');
 button.addEventListener('click', () => init());
