@@ -1,5 +1,7 @@
 let isDrawing = false; // Variable to track if the mouse button is pressed
 
+let color = "0, 0, 0";
+
 // Add a mousedown event listener to set the drawing state
 document.addEventListener("mousedown", function () {
     isDrawing = true;
@@ -11,8 +13,6 @@ document.addEventListener("mouseup", function () {
     isDrawing = false;
     // console.log("isDrawing: ", + isDrawing);
 });
-
-let color = "0, 0, 0";
 
 function colorBox (e) {
     if (isDrawing) {
@@ -37,6 +37,34 @@ function changeColor (inputcolor) {
 }
 
 // Prompt for changing to custom color:
+function promptColorChange () {
+    const inputcolor = prompt(
+        `Enter color hex code in the format r, g, b
+
+        For example: 0,0,0 (black); 255,255,255 (white); 255,0,0 (red)
+        `
+    );
+    // Regular expression to validate the input format
+    const rgbRegex = /^\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\s*$/;
+    if (inputcolor === null) {
+        return; // Exit the function without doing anything
+    }
+
+    if (!rgbRegex.test(inputcolor)) {
+        alert("Color entered in an invalid format. Please try again.");
+        promptColorChange(); // Re-prompt for a valid input
+    } else {
+        const [r, g, b] = inputcolor.match(rgbRegex).slice(1).map(Number);
+
+        // Check if RGB values are in the valid range (0-255)
+        if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+            alert("RGB values must be between 0 and 255. Please try again.");
+            promptColorChange(); // Re-prompt for a valid input
+        } else {
+            changeColor(inputcolor); // Pass the validated color to your function
+        }
+    }   
+}
 
 let isShading = false;
 
@@ -88,6 +116,9 @@ function clearGraph(){
 //Initial Prompt
 function init() {
     const graphSize = prompt("Enter graph size N to make a NxN grid. N must be less than 100.");
+    if (graphSize === null) {
+        return; // Exit the function without doing anything
+    }
     if (graphSize > 100){
         alert("Grpah size too big! N must be less than 100.");
         init();
@@ -105,7 +136,18 @@ function init() {
     }
 }
 
-// Bind `New Grid` button to init event
+function printImage () {
+    const sketchpad = document.querySelector(".sketchpad");
+
+    if (!sketchpad) {
+        alert("Sketchpad not found!");
+        return;
+    }
+    // Trigger the print dialog
+    window.print();
+}
+
+// Bind all buttons to their respective event
 const newGridBtn = document.querySelector('.new');
 newGridBtn.addEventListener('click', () => init());
 
@@ -113,7 +155,7 @@ const clearGridBtn = document.querySelector('.clear');
 clearGridBtn.addEventListener('click', () => clearGraph());
 
 const switchColorBtn = document.querySelector('.switch');
-switchColorBtn.addEventListener('click', () => changeColor("255, 0, 0"));
+switchColorBtn.addEventListener('click', () => promptColorChange());
 
 const switchBlackBtn = document.querySelector('.black');
 switchBlackBtn.addEventListener('click', () => changeColor("0, 0, 0"));
@@ -121,5 +163,11 @@ switchBlackBtn.addEventListener('click', () => changeColor("0, 0, 0"));
 const shadeBtn = document.querySelector('.shade');
 shadeBtn.addEventListener('click', () => toggleShading());
 
-//Driver code for testing
-createGraph(50);
+const eraserBtn = document.querySelector('.eraser');
+eraserBtn.addEventListener('click', () => changeColor("255, 255, 255"));
+
+const printkBtn = document.querySelector('.print');
+printkBtn.addEventListener('click', () => printImage());
+
+//Driver code for testing. Comment Out before making live.
+// createGraph(50);
