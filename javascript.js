@@ -62,5 +62,8 @@ function init() {
 }
 
 // Bind `New Grid` button to init event
-const button = document.querySelector('button');
-button.addEventListener('click', () => init());
+const newGridBtn = document.querySelector('.new');
+newGridBtn.addEventListener('click', () => init());
+
+const clearGridBtn = document.querySelector('.clear');
+clearGridBtn.addEventListener('click', () => clearGraph());
