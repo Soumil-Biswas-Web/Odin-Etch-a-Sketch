@@ -34,6 +34,7 @@ body :nth-child(3) button {
 }
 
 .sketchpad{
+    border: 1px solid black;
     width: min(80vw, 750px);
     aspect-ratio: 1; /* Ensures the height equals the width, making it a square */
     display: flex;
@@ -47,6 +48,6 @@ body :nth-child(3) button {
 }
 
 .box{
-    border: 1px solid black;
+    /* border: 1px solid black; */
     flex: 1;
 }

@@ -1,11 +1,55 @@
+let isDrawing = false; // Variable to track if the mouse button is pressed
+
+// Add a mousedown event listener to set the drawing state
+document.addEventListener("mousedown", function () {
+    isDrawing = true;
+    // console.log("isDrawing: ", + isDrawing);
+});
+
+// Add a mouseup event listener to reset the drawing state
+document.addEventListener("mouseup", function () {
+    isDrawing = false;
+    // console.log("isDrawing: ", + isDrawing);
+});
+
+let color = "0, 0, 0";
+
+function colorBox (e) {
+    if (isDrawing) {
+        if (isShading) {
+            // Get current background color and increment opacity
+            let currentOpacity = parseFloat(e.target.dataset.opacity) || 0;
+            currentOpacity = Math.min(currentOpacity + 0.1, 1); // Increment by 10%, max at 100%
+            e.target.style.backgroundColor = `rgba(${color}, ${currentOpacity})`;
+            e.target.dataset.opacity = currentOpacity; // Store the new opacity
+        }
+        else {
+            e.target.style.background = `rgb(${color})`; // Change color only if mouse is pressed
+            e.target.dataset.opacity = 1; // Reset opacity to 100%
+        }
+    }
+}
+
+// change the color of the brush
+function changeColor (inputcolor) {
+    color = inputcolor;
+    // console.log("Changed brush color to " + color);
+}
+
+// Prompt for changing to custom color:
+
+let isShading = false;
+
+// change brush to shading mode:
+function toggleShading () {
+    isShading = !isShading;
+}
+
 // Create Each box in the Row
 function createBox(){
     const box = document.createElement('div');
     box.setAttribute('class', 'box');
-    //box.addEventListener('hover', () => changeColor(box));
-    box.addEventListener("mouseenter", function(e) {
-        e.target.style.background = "black";
-    })
+    box.addEventListener("mouseenter", (e) => colorBox(e));
     return box;
 }
 
@@ -67,3 +111,15 @@ newGridBtn.addEventListener('click', () => init());
 
 const clearGridBtn = document.querySelector('.clear');
 clearGridBtn.addEventListener('click', () => clearGraph());
+
+const switchColorBtn = document.querySelector('.switch');
+switchColorBtn.addEventListener('click', () => changeColor("255, 0, 0"));
+
+const switchBlackBtn = document.querySelector('.black');
+switchBlackBtn.addEventListener('click', () => changeColor("0, 0, 0"));
+
+const shadeBtn = document.querySelector('.shade');
+shadeBtn.addEventListener('click', () => toggleShading());
+
+//Driver code for testing
+createGraph(50);
